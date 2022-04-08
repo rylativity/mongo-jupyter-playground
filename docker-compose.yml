@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: mongo
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo_data:/data/db
+  jupyter:
+    build: ./jupyter/
+    ports: 
+      - 8888:8888
+    volumes:
+      - ./jupyter/notebooks/:/home/jupyter/notebooks/
