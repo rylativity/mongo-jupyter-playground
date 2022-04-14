@@ -1,42 +1,36 @@
 version: '3.9'
 
 services:
+  mongos:
+    build: .
+    restart: unless-stopped
+    command: mongos --bind_ip localhost,mongos --keyFile /data/mongo_keyfile --configdb cfgReplicaSet/mongocfg:27019
+    ports:
+      - 27017:27017
+  mongocfg:
+    build: .
+    restart: unless-stopped
+    command: --replSet cfgReplicaSet --configsvr --bind_ip localhost,mongocfg --keyFile /data/mongo_keyfile
+    ports:
+      - 27019:27019
   mongo1:
     build: .
     restart: unless-stopped
-    command: --replSet myReplicaSet --bind_ip localhost,mongo1 --keyFile /data/mongo_keyfile
-    environment:
-      MONGO_INITDB_DATABASE: mongo
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - 27017:27017
+    command: --shardsvr --replSet shardReplicaSet --bind_ip localhost,mongo1 --keyFile /data/mongo_keyfile
     volumes:
       - ./mongo_data1:/data/db
       # - ./mongo_keyfile:/data/mongo_keyfile
   mongo2:
     build: .
     restart: unless-stopped
-    command: --replSet myReplicaSet --bind_ip localhost,mongo2 --keyFile /data/mongo_keyfile
-    # environment:
-    #   MONGO_INITDB_DATABASE: mongo
-    #   MONGO_INITDB_ROOT_USERNAME: root
-    #   MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - 27018:27017
+    command: --shardsvr --replSet shardReplicaSet --bind_ip localhost,mongo2 --keyFile /data/mongo_keyfile
     volumes:
       - ./mongo_data2:/data/db
       # - ./mongo_keyfile:/data/mongo_keyfile
   mongo3:
     build: .
     restart: unless-stopped
-    command: --replSet myReplicaSet --bind_ip localhost,mongo3 --keyFile /data/mongo_keyfile
-    # environment:
-    #   MONGO_INITDB_DATABASE: mongo
-    #   MONGO_INITDB_ROOT_USERNAME: root
-    #   MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - 27019:27017
+    command: --shardsvr --replSet shardReplicaSet --bind_ip localhost,mongo3 --keyFile /data/mongo_keyfile
     volumes:
       - ./mongo_data3:/data/db
       # - ./mongo_keyfile:/data/mongo_keyfile
