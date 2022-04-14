@@ -8,7 +8,7 @@ RUN pip install -r requirements.txt
 # USER jupyter
 # WORKDIR /home/jupter/
 
-COPY notebooks /notebooks/
+# COPY notebooks /notebooks/
 
 WORKDIR /notebooks
 
