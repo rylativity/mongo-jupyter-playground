@@ -1,9 +1,10 @@
 version: '3.9'
 
 services:
-  mongo:
-    image: mongo
+  mongo1:
+    build: .
     restart: unless-stopped
+    command: --replSet myReplicaSet --bind_ip localhost,mongo1 --keyFile /data/mongo_keyfile
     environment:
       MONGO_INITDB_DATABASE: mongo
       MONGO_INITDB_ROOT_USERNAME: root
@@ -11,7 +12,34 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./mongo_data:/data/db
+      - ./mongo_data1:/data/db
+      # - ./mongo_keyfile:/data/mongo_keyfile
+  mongo2:
+    build: .
+    restart: unless-stopped
+    command: --replSet myReplicaSet --bind_ip localhost,mongo2 --keyFile /data/mongo_keyfile
+    # environment:
+    #   MONGO_INITDB_DATABASE: mongo
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27018:27017
+    volumes:
+      - ./mongo_data2:/data/db
+      # - ./mongo_keyfile:/data/mongo_keyfile
+  mongo3:
+    build: .
+    restart: unless-stopped
+    command: --replSet myReplicaSet --bind_ip localhost,mongo3 --keyFile /data/mongo_keyfile
+    # environment:
+    #   MONGO_INITDB_DATABASE: mongo
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27019:27017
+    volumes:
+      - ./mongo_data3:/data/db
+      # - ./mongo_keyfile:/data/mongo_keyfile
   jupyter:
     build: ./jupyter/
     ports: 
