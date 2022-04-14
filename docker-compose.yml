@@ -16,24 +16,30 @@ services:
   mongo1:
     build: .
     restart: unless-stopped
-    command: --shardsvr --replSet shardReplicaSet --bind_ip localhost,mongo1 --keyFile /data/mongo_keyfile
+    command: --shardsvr --replSet shardReplicaSet1 --bind_ip localhost,mongo1 --keyFile /data/mongo_keyfile
     volumes:
       - ./mongo_data1:/data/db
       # - ./mongo_keyfile:/data/mongo_keyfile
   mongo2:
     build: .
     restart: unless-stopped
-    command: --shardsvr --replSet shardReplicaSet --bind_ip localhost,mongo2 --keyFile /data/mongo_keyfile
+    command: --shardsvr --replSet shardReplicaSet1 --bind_ip localhost,mongo2 --keyFile /data/mongo_keyfile
     volumes:
       - ./mongo_data2:/data/db
       # - ./mongo_keyfile:/data/mongo_keyfile
   mongo3:
     build: .
     restart: unless-stopped
-    command: --shardsvr --replSet shardReplicaSet --bind_ip localhost,mongo3 --keyFile /data/mongo_keyfile
+    command: --shardsvr --replSet shardReplicaSet2 --bind_ip localhost,mongo3 --keyFile /data/mongo_keyfile
     volumes:
       - ./mongo_data3:/data/db
       # - ./mongo_keyfile:/data/mongo_keyfile
+  mongo4:
+    build: .
+    restart: unless-stopped
+    command: --shardsvr --replSet shardReplicaSet2 --bind_ip localhost,mongo4 --keyFile /data/mongo_keyfile
+    volumes:
+      - ./mongo_data4:/data/db
   jupyter:
     build: ./jupyter/
     ports: 
