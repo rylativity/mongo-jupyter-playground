@@ -46,7 +46,7 @@ or
 
 or
 
-`docker-compose exec mongos mongosh -u root -p example --eval "sh.addShard(\"shardReplicaSet1/mongo1:27018\")"`
+`docker-compose exec mongos mongosh -u root -p example --eval "sh.addShard(\"shardReplicaSet2/mongo1:27018\")"`
 
 ### To create additional users, run:
 ```
